@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+						http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+<!-- 配置处理映射器(默认为BeanNameUrlHandlerMapping) -->
+	<!-- 根据自定义Controller的name属性匹配 -->
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+	
+	<!-- 通过请求地址,匹配bean的id -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/my.do">userController</prop>
+				<prop key="/abc.do">userController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 通过Controller的bean的类名小写来匹配 -->
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
+
+<!-- 配置处理器适配器(默认为SimpleControllerHandlerAdapter) -->
+<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+
+<!-- 配置自定义Controller -->
+<bean id="userController" name="/hello.do" class="com.lm.sm.controller.UserController"></bean>
+<bean id="commandController" name="/addUser.do" class="com.lm.sm.controller.CommandController"></bean>
+<bean name="/add.do" class="com.lm.sm.controller.ToAddController"></bean>
+
+<!-- 配置视图解析器 -->
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- 前缀 -->
+	<property name="prefix" value="WEB-INF/pages/"></property>
+	<!-- 后缀 -->
+	<property name="suffix" value=".jsp"></property>
+</bean>
+
+</beans>
